@@ -1,13 +1,30 @@
 import { useNewArticleForm } from './useNewArticleForm';
 import { useNewArticleCreating } from './useNewArticleCreating';
 import { TextField, Button } from '@mui/material';
+import React from 'react';
 
-export const NewArticleForm = () => {
-  const { handleTitleChange, handleContentChange, title, content } = useNewArticleForm();
+export const NewArticleForm = ({ article, isEditing, onClose }) => {
+  const {
+    handleTitleChange,
+    handleContentChange,
+    title,
+    content,
+    setInitialValues,
+  } = useNewArticleForm();
+
+  // Set initial values when editing
+  React.useEffect(() => {
+    if (isEditing && article) {
+      setInitialValues(article.title, article.content);
+    }
+  }, [isEditing, article, setInitialValues]);
 
   const { handleSubmit, isLoading, successMessage } = useNewArticleCreating(
     title,
     content,
+    isEditing,
+    article?.id,
+    onClose,
   );
 
   return (
@@ -16,7 +33,7 @@ export const NewArticleForm = () => {
         name="title"
         value={title}
         onChange={handleTitleChange}
-        label="New article title"
+        label={isEditing ? 'Article title' : 'New article title'}
         fullWidth
         sx={{ mt: 1 }}
         variant={'filled'}
@@ -25,15 +42,20 @@ export const NewArticleForm = () => {
         name="content"
         value={content}
         onChange={handleContentChange}
-        label="New article content"
+        label={isEditing ? 'Article content' : 'New article content'}
         fullWidth
         sx={{ mt: 1 }}
         variant={'filled'}
       />
-      <Button type="submit" sx={{ mt: 1 }} variant={ 'outlined' } disabled={isLoading}>
-        {isLoading ? 'Loading...' : 'Submit'}
+      <Button
+        type="submit"
+        sx={{ mt: 1 }}
+        variant={'outlined'}
+        disabled={isLoading}
+      >
+        {isLoading ? 'Loading...' : isEditing ? 'Update' : 'Submit'}
       </Button>
       {successMessage && <p>{successMessage}</p>}
     </form>
-  )
-}
+  );
+};

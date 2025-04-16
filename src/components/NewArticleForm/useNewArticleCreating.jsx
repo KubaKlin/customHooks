@@ -1,6 +1,12 @@
 import { useState } from 'react';
 
-export function useNewArticleCreating(title, content) {
+export function useNewArticleCreating(
+  title,
+  content,
+  isEditing = false,
+  articleId = null,
+  onClose = null,
+) {
   const [isLoading, setIsLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
 
@@ -8,17 +14,36 @@ export function useNewArticleCreating(title, content) {
     event.preventDefault();
     setIsLoading(true);
     setSuccessMessage('');
-    const response = await fetch('http://localhost:3000/articles', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        title,
-        content,
-      }),
-    });
-    const data = await response.json();
-    setSuccessMessage(`Post with id ${data.id} created`);
-    setIsLoading(false);
+
+    try {
+      const url = isEditing
+        ? `http://localhost:3010/articles/${articleId}`
+        : 'http://localhost:3010/articles';
+
+      const method = isEditing ? 'PATCH' : 'POST';
+
+      const response = await fetch(url, {
+        method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title,
+          content,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (isEditing) {
+        setSuccessMessage('Article updated successfully');
+      } else {
+        setSuccessMessage(`Post with id ${data.id} created`);
+      }
+    } catch (error) {
+      setSuccessMessage('An error occurred. Please try again.');
+      console.error('Error:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return {

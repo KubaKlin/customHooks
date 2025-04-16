@@ -1,4 +1,5 @@
 import { List, ListItem, Typography, Box } from '@mui/material';
+import { ArticleEdit } from '../ArticleEdit/ArticleEdit';
 
 export const ArticlesList = ({ articles }) => {
   return (
@@ -19,6 +20,7 @@ export const ArticlesList = ({ articles }) => {
             <Typography variant="body2" color="text.secondary">
               {article.content}
             </Typography>
+            <ArticleEdit article={article} />
           </Box>
         </ListItem>
       ))}

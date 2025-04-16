@@ -1,20 +1,20 @@
 import { useEffect, useState, useMemo } from 'react';
 import { Container, Box, Typography, Button, Modal } from '@mui/material';
 import { SearchBar } from './components/SearchBar/SearchBar';
-import { ArticlesList } from './components/ArticlesList/ArticlesList.jsx';
-import { NewArticleForm } from "./components/NewArticleForm/NewArticleForm.jsx";
+import { ArticlesList } from './components/ArticlesList/ArticlesList';
+import { NewArticleForm } from './components/NewArticleForm/NewArticleForm';
 
 const App = () => {
   const [articles, setArticles] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [articlesResponse] =
-          await Promise.all([
-            fetch('http://localhost:3000/articles'),
-          ]);
+        const [articlesResponse] = await Promise.all([
+          fetch('http://localhost:3010/articles'),
+        ]);
         const articlesData = await articlesResponse.json();
         setArticles(articlesData);
       } catch (error) {
@@ -25,10 +25,13 @@ const App = () => {
   }, [articles]);
 
   const filteredArticles = useMemo(() => {
-    return articles.filter((article) => article.title.toLowerCase().includes(searchQuery.toLowerCase()) || article.content.toLowerCase().includes(searchQuery.toLowerCase()));
+    return articles.filter(
+      (article) =>
+        article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        article.content.toLowerCase().includes(searchQuery.toLowerCase()),
+    );
   }, [articles, searchQuery]);
 
-  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -44,26 +47,27 @@ const App = () => {
     p: 4,
   };
 
-
   return (
-    <Container maxWidth={ 'md' }>
+    <Container maxWidth={'md'}>
       <Box sx={{ my: 4 }}>
         <Box>
           <Typography variant="h4" sx={{ mb: 4 }}>
             Articles list
           </Typography>
-          <Button variant={ 'outlined' } onClick={handleOpen}>Open modal</Button>
+          <Button variant={'outlined'} onClick={handleOpen}>
+            Add new article
+          </Button>
           <Modal
             open={open}
             onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
+            aria-labelledby="add-modal-title"
+            aria-describedby="add-modal-description"
           >
             <Box sx={style}>
-              <Typography id="modal-modal-title" variant="h6" component="h2">
+              <Typography id="add-modal-title" variant="h6" component="h2" sx={{ mb: 2 }}>
                 Add new article
               </Typography>
-              <NewArticleForm/>
+              <NewArticleForm isEditing={false} onClose={handleClose} />
             </Box>
           </Modal>
         </Box>

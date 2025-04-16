@@ -6,14 +6,14 @@ export const SearchBar = ({ searchQuery, setSearchQuery }) => {
   };
 
   return (
-    <Box sx={{p: 2, background: '#efefef'}}>
+    <Box sx={{ p: 2, background: '#efefef' }}>
       <TextField
         fullWidth
         label="Search articles by title or content"
         variant="outlined"
         value={searchQuery}
         onChange={handleSearchChange}
-        sx={{background: '#fff'}}
+        sx={{ background: '#fff' }}
       />
     </Box>
   );

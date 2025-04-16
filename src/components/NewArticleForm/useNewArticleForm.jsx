@@ -12,11 +12,16 @@ export function useNewArticleForm() {
     setContent(event.target.value);
   };
 
+  const setInitialValues = (initialTitle, initialContent) => {
+    setTitle(initialTitle);
+    setContent(initialContent);
+  };
+
   return {
     handleTitleChange,
     handleContentChange,
     title,
     content,
+    setInitialValues,
   };
-
 }
