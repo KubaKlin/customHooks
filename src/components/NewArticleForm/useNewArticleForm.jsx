@@ -1,8 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-export function useNewArticleForm() {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+export function useNewArticleForm(initialTitle = '', initialContent = '') {
+  const [title, setTitle] = useState(initialTitle);
+  const [content, setContent] = useState(initialContent);
+
+  // Update form values when initial values change
+  useEffect(() => {
+    setTitle(initialTitle);
+    setContent(initialContent);
+  }, [initialTitle, initialContent]);
 
   const handleTitleChange = (event) => {
     setTitle(event.target.value);
@@ -12,16 +18,10 @@ export function useNewArticleForm() {
     setContent(event.target.value);
   };
 
-  const setInitialValues = (initialTitle, initialContent) => {
-    setTitle(initialTitle);
-    setContent(initialContent);
-  };
-
   return {
     handleTitleChange,
     handleContentChange,
     title,
     content,
-    setInitialValues,
   };
 }

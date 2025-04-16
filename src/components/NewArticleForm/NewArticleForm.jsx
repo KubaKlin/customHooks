@@ -9,15 +9,10 @@ export const NewArticleForm = ({ article, isEditing, onClose }) => {
     handleContentChange,
     title,
     content,
-    setInitialValues,
-  } = useNewArticleForm();
-
-  // Set initial values when editing
-  React.useEffect(() => {
-    if (isEditing && article) {
-      setInitialValues(article.title, article.content);
-    }
-  }, [isEditing, article, setInitialValues]);
+  } = useNewArticleForm(
+    article?.title || '',
+    article?.content || ''
+  );
 
   const { handleSubmit, isLoading, successMessage } = useNewArticleCreating(
     title,
