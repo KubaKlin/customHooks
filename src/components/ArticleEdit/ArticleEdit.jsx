@@ -25,10 +25,12 @@ export const ArticleEdit = ({ article }) => {
         color="primary"
         onClick={handleOpen}
         aria-label="Edit article"
+        size='small'
       >
         Edit
       </Button>
       <Button
+        size='small'
         variant="contained"
         color="error"
         onClick={handleRemove}

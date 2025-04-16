@@ -51,10 +51,10 @@ const App = () => {
     <Container maxWidth={'md'}>
       <Box sx={{ my: 4 }}>
         <Box>
-          <Typography variant="h4" sx={{ mb: 4 }}>
+          <Typography variant="h4" sx={{ mb: 2 }}>
             Articles list
           </Typography>
-          <Button variant={'outlined'} onClick={handleOpen}>
+          <Button variant={'outlined'} sx={{mb: 2}} onClick={handleOpen}>
             Add new article
           </Button>
           <Modal
