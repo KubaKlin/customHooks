@@ -1,7 +1,11 @@
 import { List, ListItem, Typography, Box } from '@mui/material';
 import { ArticleEdit } from '../ArticleEdit/ArticleEdit';
 
-export const ArticlesList = ({ articles }) => {
+export const ArticlesList = ({
+  articles,
+  favoriteArticles,
+  onToggleFavorite,
+}) => {
   return (
     <List sx={{ background: '#efefef' }}>
       {articles.map((article) => (
@@ -20,7 +24,11 @@ export const ArticlesList = ({ articles }) => {
             <Typography variant="body2" color="text.secondary">
               {article.content}
             </Typography>
-            <ArticleEdit article={article} />
+            <ArticleEdit
+              article={article}
+              isFavorite={favoriteArticles.includes(article.id)}
+              onToggleFavorite={() => onToggleFavorite(article.id)}
+            />
           </Box>
         </ListItem>
       ))}

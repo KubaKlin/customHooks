@@ -1,8 +1,10 @@
-import { Button, Box, Modal, Typography } from '@mui/material';
+import { Button, Box, Modal, Typography, IconButton } from '@mui/material';
 import { useState } from 'react';
 import { NewArticleForm } from '../NewArticleForm/NewArticleForm';
+import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 
-export const ArticleEdit = ({ article }) => {
+export const ArticleEdit = ({ article, isFavorite, onToggleFavorite }) => {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
@@ -19,7 +21,7 @@ export const ArticleEdit = ({ article }) => {
   };
 
   return (
-    <Box sx={{ mt: 2, display: 'flex', gap: 1 }}>
+    <Box sx={{ mt: 2, display: 'flex', gap: 1, alignItems: 'center' }}>
       <Button
         variant="contained"
         color="primary"
@@ -38,6 +40,14 @@ export const ArticleEdit = ({ article }) => {
       >
         Remove
       </Button>
+      <IconButton
+        onClick={onToggleFavorite}
+        aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+        color={isFavorite ? 'primary' : 'default'}
+        size="small"
+      >
+        {isFavorite ? <StarIcon /> : <StarBorderIcon />}
+      </IconButton>
       <Modal
         open={open}
         onClose={handleClose}

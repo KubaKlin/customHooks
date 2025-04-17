@@ -9,6 +9,10 @@ const App = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [open, setOpen] = useState(false);
   const [sortOrder, setSortOrder] = useState('none'); // 'none', 'ascendant', 'descending'
+  const [favoriteArticles, setFavoriteArticles] = useState(() => {
+    const saved = localStorage.getItem('favoriteArticles');
+    return saved ? JSON.parse(saved) : [];
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,6 +29,19 @@ const App = () => {
     fetchData();
   }, [articles]);
 
+  useEffect(() => {
+    localStorage.setItem('favoriteArticles', JSON.stringify(favoriteArticles));
+  }, [favoriteArticles]);
+
+  const handleToggleFavorite = (articleId) => {
+    setFavoriteArticles((previous) => {
+      if (previous.includes(articleId)) {
+        return previous.filter((id) => id !== articleId);
+      }
+      return [...previous, articleId];
+    });
+  };
+
   const filteredAndSortedArticles = useMemo(() => {
     let result = articles.filter(
       (article) =>
@@ -33,10 +50,12 @@ const App = () => {
     );
 
     if (sortOrder !== 'none') {
-      result = [...result].sort((a, b) => {
-        const lengthA = a.content.length;
-        const lengthB = b.content.length;
-        return sortOrder === 'ascendant' ? lengthA - lengthB : lengthB - lengthA;
+      result = [...result].sort((firstArticle, secondArticle) => {
+        const firstArticleLength = firstArticle.content.length;
+        const secondArticleLength = secondArticle.content.length;
+        return sortOrder === 'ascendant'
+          ? firstArticleLength - secondArticleLength
+          : secondArticleLength - firstArticleLength;
       });
     }
 
@@ -123,7 +142,11 @@ const App = () => {
           </Modal>
         </Box>
         <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-        <ArticlesList articles={filteredAndSortedArticles} />
+        <ArticlesList
+          articles={filteredAndSortedArticles}
+          favoriteArticles={favoriteArticles}
+          onToggleFavorite={handleToggleFavorite}
+        />
       </Box>
     </Container>
   );
