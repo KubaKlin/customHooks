@@ -3,12 +3,13 @@ import { Container, Box, Typography, Button } from '@mui/material';
 import { SearchBar } from './components/SearchBar/SearchBar';
 import { ArticlesList } from './components/ArticlesList/ArticlesList';
 import { ArticleModal } from './components/ArticleModal/ArticleModal';
+import { SortButton } from './components/SortButton/SortButton';
 
 const App = () => {
   const [articles, setArticles] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [open, setOpen] = useState(false);
-  const [sortOrder, setSortOrder] = useState('none'); // 'none', 'ascendant', 'descending'
+  const [sortOrder, setSortOrder] = useState('none'); // 'none', 'ascending', 'descending'
   const [favoriteArticles, setFavoriteArticles] = useState(() => {
     const saved = localStorage.getItem('favoriteArticles');
     return saved ? JSON.parse(saved) : [];
@@ -53,7 +54,7 @@ const App = () => {
       result = [...result].sort((firstArticle, secondArticle) => {
         const firstArticleLength = firstArticle.content.length;
         const secondArticleLength = secondArticle.content.length;
-        return sortOrder === 'ascendant'
+        return sortOrder === 'ascending'
           ? firstArticleLength - secondArticleLength
           : secondArticleLength - firstArticleLength;
       });
@@ -64,25 +65,6 @@ const App = () => {
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
-  const handleSortArticles = () => {
-    setSortOrder((current) => {
-      if (current === 'none') return 'ascendant';
-      if (current === 'ascendant') return 'descending';
-      return 'none';
-    });
-  };
-
-  const getSortButtonText = () => {
-    switch (sortOrder) {
-      case 'ascendant':
-        return 'Sort by length (ascending)';
-      case 'descending':
-        return 'Sort by length (descending)';
-      default:
-        return 'Sort by length';
-    }
-  };
 
   return (
     <Container maxWidth={'md'}>
@@ -100,15 +82,7 @@ const App = () => {
             >
               Add new article
             </Button>
-            <Button
-              size="small"
-              variant={'outlined'}
-              sx={{ mb: 2 }}
-              onClick={handleSortArticles}
-              color={sortOrder !== 'none' ? 'primary' : 'inherit'}
-            >
-              {getSortButtonText()}
-            </Button>
+            <SortButton sortOrder={sortOrder} onSortChange={setSortOrder} />
           </Box>
           <ArticleModal open={open} onClose={handleClose} isEditing={false} />
         </Box>
