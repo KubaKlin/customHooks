@@ -25,12 +25,12 @@ export const ArticleEdit = ({ article }) => {
         color="primary"
         onClick={handleOpen}
         aria-label="Edit article"
-        size='small'
+        size="small"
       >
         Edit
       </Button>
       <Button
-        size='small'
+        size="small"
         variant="contained"
         color="error"
         onClick={handleRemove}
@@ -44,24 +44,31 @@ export const ArticleEdit = ({ article }) => {
         aria-labelledby="edit-modal-title"
         aria-describedby="edit-modal-description"
       >
-        <Box sx={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: 400,
-          bgcolor: 'background.paper',
-          border: '2px solid #000',
-          boxShadow: 24,
-          p: 4,
-        }}>
-          <Typography id="edit-modal-title" variant="h6" component="h2" sx={{ mb: 2 }}>
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 400,
+            bgcolor: 'background.paper',
+            border: '2px solid #000',
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          <Typography
+            id="edit-modal-title"
+            variant="h6"
+            component="h2"
+            sx={{ mb: 2 }}
+          >
             Edit article
           </Typography>
-          <NewArticleForm 
-            article={article} 
-            isEditing={true} 
-            onClose={handleClose} 
+          <NewArticleForm
+            article={article}
+            isEditing={true}
+            onClose={handleClose}
           />
         </Box>
       </Modal>

@@ -6,7 +6,7 @@ export const SearchBar = ({ searchQuery, setSearchQuery }) => {
   };
 
   return (
-    <Box sx={{ p: 2, background: '#efefef' }}>
+    <Box sx={{ pt: 2, px: 2, background: '#efefef' }}>
       <TextField
         fullWidth
         label="Search articles by title or content"

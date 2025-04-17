@@ -4,15 +4,8 @@ import { TextField, Button } from '@mui/material';
 import React from 'react';
 
 export const NewArticleForm = ({ article, isEditing, onClose }) => {
-  const {
-    handleTitleChange,
-    handleContentChange,
-    title,
-    content,
-  } = useNewArticleForm(
-    article?.title || '',
-    article?.content || ''
-  );
+  const { handleTitleChange, handleContentChange, title, content } =
+    useNewArticleForm(article?.title || '', article?.content || '');
 
   const { handleSubmit, isLoading, successMessage } = useNewArticleCreating(
     title,
