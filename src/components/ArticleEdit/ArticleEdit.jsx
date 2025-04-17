@@ -1,8 +1,8 @@
-import { Button, Box, Modal, Typography, IconButton } from '@mui/material';
+import { Button, Box, IconButton } from '@mui/material';
 import { useState } from 'react';
-import { NewArticleForm } from '../NewArticleForm/NewArticleForm';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
+import { ArticleModal } from '../ArticleModal/ArticleModal';
 
 export const ArticleEdit = ({ article, isFavorite, onToggleFavorite }) => {
   const [open, setOpen] = useState(false);
@@ -48,40 +48,12 @@ export const ArticleEdit = ({ article, isFavorite, onToggleFavorite }) => {
       >
         {isFavorite ? <StarIcon /> : <StarBorderIcon />}
       </IconButton>
-      <Modal
+      <ArticleModal
         open={open}
         onClose={handleClose}
-        aria-labelledby="edit-modal-title"
-        aria-describedby="edit-modal-description"
-      >
-        <Box
-          sx={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            width: 400,
-            bgcolor: 'background.paper',
-            border: '2px solid #000',
-            boxShadow: 24,
-            p: 4,
-          }}
-        >
-          <Typography
-            id="edit-modal-title"
-            variant="h6"
-            component="h2"
-            sx={{ mb: 2 }}
-          >
-            Edit article
-          </Typography>
-          <NewArticleForm
-            article={article}
-            isEditing={true}
-            onClose={handleClose}
-          />
-        </Box>
-      </Modal>
+        isEditing={true}
+        article={article}
+      />
     </Box>
   );
 };

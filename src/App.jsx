@@ -1,8 +1,8 @@
 import { useEffect, useState, useMemo } from 'react';
-import { Container, Box, Typography, Button, Modal } from '@mui/material';
+import { Container, Box, Typography, Button } from '@mui/material';
 import { SearchBar } from './components/SearchBar/SearchBar';
 import { ArticlesList } from './components/ArticlesList/ArticlesList';
-import { NewArticleForm } from './components/NewArticleForm/NewArticleForm';
+import { ArticleModal } from './components/ArticleModal/ArticleModal';
 
 const App = () => {
   const [articles, setArticles] = useState([]);
@@ -84,18 +84,6 @@ const App = () => {
     }
   };
 
-  const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-  };
-
   return (
     <Container maxWidth={'md'}>
       <Box sx={{ my: 4 }}>
@@ -122,24 +110,7 @@ const App = () => {
               {getSortButtonText()}
             </Button>
           </Box>
-          <Modal
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="add-modal-title"
-            aria-describedby="add-modal-description"
-          >
-            <Box sx={style}>
-              <Typography
-                id="add-modal-title"
-                variant="h6"
-                component="h2"
-                sx={{ mb: 2 }}
-              >
-                Add new article
-              </Typography>
-              <NewArticleForm isEditing={false} onClose={handleClose} />
-            </Box>
-          </Modal>
+          <ArticleModal open={open} onClose={handleClose} isEditing={false} />
         </Box>
         <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
         <ArticlesList
