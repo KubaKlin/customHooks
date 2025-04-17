@@ -8,6 +8,7 @@ const App = () => {
   const [articles, setArticles] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [open, setOpen] = useState(false);
+  const [sortOrder, setSortOrder] = useState('none'); // 'none', 'ascendant', 'descending'
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,16 +25,45 @@ const App = () => {
     fetchData();
   }, [articles]);
 
-  const filteredArticles = useMemo(() => {
-    return articles.filter(
+  const filteredAndSortedArticles = useMemo(() => {
+    let result = articles.filter(
       (article) =>
         article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         article.content.toLowerCase().includes(searchQuery.toLowerCase()),
     );
-  }, [articles, searchQuery]);
+
+    if (sortOrder !== 'none') {
+      result = [...result].sort((a, b) => {
+        const lengthA = a.content.length;
+        const lengthB = b.content.length;
+        return sortOrder === 'ascendant' ? lengthA - lengthB : lengthB - lengthA;
+      });
+    }
+
+    return result;
+  }, [articles, searchQuery, sortOrder]);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const handleSortArticles = () => {
+    setSortOrder((current) => {
+      if (current === 'none') return 'ascendant';
+      if (current === 'ascendant') return 'descending';
+      return 'none';
+    });
+  };
+
+  const getSortButtonText = () => {
+    switch (sortOrder) {
+      case 'ascendant':
+        return 'Sort by length (ascending)';
+      case 'descending':
+        return 'Sort by length (descending)';
+      default:
+        return 'Sort by length';
+    }
+  };
 
   const style = {
     position: 'absolute',
@@ -54,9 +84,25 @@ const App = () => {
           <Typography variant="h4" sx={{ mb: 2 }}>
             Articles list
           </Typography>
-          <Button variant={'outlined'} sx={{mb: 2}} onClick={handleOpen}>
-            Add new article
-          </Button>
+          <Box sx={{ mt: 2, display: 'flex', gap: 1 }}>
+            <Button
+              size="small"
+              variant={'outlined'}
+              sx={{ mb: 2 }}
+              onClick={handleOpen}
+            >
+              Add new article
+            </Button>
+            <Button
+              size="small"
+              variant={'outlined'}
+              sx={{ mb: 2 }}
+              onClick={handleSortArticles}
+              color={sortOrder !== 'none' ? 'primary' : 'inherit'}
+            >
+              {getSortButtonText()}
+            </Button>
+          </Box>
           <Modal
             open={open}
             onClose={handleClose}
@@ -64,7 +110,12 @@ const App = () => {
             aria-describedby="add-modal-description"
           >
             <Box sx={style}>
-              <Typography id="add-modal-title" variant="h6" component="h2" sx={{ mb: 2 }}>
+              <Typography
+                id="add-modal-title"
+                variant="h6"
+                component="h2"
+                sx={{ mb: 2 }}
+              >
                 Add new article
               </Typography>
               <NewArticleForm isEditing={false} onClose={handleClose} />
@@ -72,7 +123,7 @@ const App = () => {
           </Modal>
         </Box>
         <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-        <ArticlesList articles={filteredArticles} />
+        <ArticlesList articles={filteredAndSortedArticles} />
       </Box>
     </Container>
   );
