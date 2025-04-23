@@ -1,18 +1,19 @@
-import { useState, useMemo } from 'react';
-import { Container, Box, Typography, Button } from '@mui/material';
+import { useState } from 'react';
+import { Container, Box, Typography, Button, IconButton, Tooltip } from '@mui/material';
 import { SearchBar } from './components/SearchBar/SearchBar';
 import { ArticlesList } from './components/ArticlesList/ArticlesList';
 import { ArticleModal } from './components/ArticleModal/ArticleModal';
-import { SortButton } from './components/SortButton/SortButton';
+import SortIcon from '@mui/icons-material/Sort';
 import useLocalStorage from './hooks/useLocalStorage';
 import useArticles from './hooks/useArticles';
 
 const App = () => {
-  const { articles } = useArticles();
   const [searchQuery, setSearchQuery] = useState('');
   const [open, setOpen] = useState(false);
-  const [sortOrder, setSortOrder] = useState('none'); // 'none', 'ascending', 'descending'
+  const [isSorted, setIsSorted] = useState(false);
   const [favoriteArticles, setFavoriteArticles] = useLocalStorage('favoriteArticles', []);
+  
+  const { articles } = useArticles(isSorted);
 
   const handleToggleFavorite = (articleId) => {
     setFavoriteArticles((previous) => {
@@ -23,28 +24,15 @@ const App = () => {
     });
   };
 
-  const filteredAndSortedArticles = useMemo(() => {
-    let result = articles.filter(
-      (article) =>
-        article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        article.content.toLowerCase().includes(searchQuery.toLowerCase()),
-    );
-
-    if (sortOrder !== 'none') {
-      result = [...result].sort((firstArticle, secondArticle) => {
-        const firstArticleLength = firstArticle.content.length;
-        const secondArticleLength = secondArticle.content.length;
-        return sortOrder === 'ascending'
-          ? firstArticleLength - secondArticleLength
-          : secondArticleLength - firstArticleLength;
-      });
-    }
-
-    return result;
-  }, [articles, searchQuery, sortOrder]);
+  const filteredArticles = articles.filter(
+    (article) =>
+      article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      article.content.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const handleToggleSort = () => setIsSorted(prev => !prev);
 
   return (
     <Container maxWidth={'md'}>
@@ -62,13 +50,22 @@ const App = () => {
             >
               Add new article
             </Button>
-            <SortButton sortOrder={sortOrder} onSortChange={setSortOrder} />
+            <Tooltip title={isSorted ? "Remove sorting" : "Sort by content length"}>
+              <IconButton 
+                onClick={handleToggleSort}
+                color={isSorted ? "primary" : "default"}
+                size="small"
+                sx={{ mb: 2 }}
+              >
+                <SortIcon />
+              </IconButton>
+            </Tooltip>
           </Box>
           <ArticleModal open={open} onClose={handleClose} isEditing={false} />
         </Box>
         <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
         <ArticlesList
-          articles={filteredAndSortedArticles}
+          articles={filteredArticles}
           favoriteArticles={favoriteArticles}
           onToggleFavorite={handleToggleFavorite}
         />
