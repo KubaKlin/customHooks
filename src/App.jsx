@@ -4,16 +4,14 @@ import { SearchBar } from './components/SearchBar/SearchBar';
 import { ArticlesList } from './components/ArticlesList/ArticlesList';
 import { ArticleModal } from './components/ArticleModal/ArticleModal';
 import { SortButton } from './components/SortButton/SortButton';
+import useLocalStorage from './hooks/useLocalStorage';
 
 const App = () => {
   const [articles, setArticles] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [open, setOpen] = useState(false);
   const [sortOrder, setSortOrder] = useState('none'); // 'none', 'ascending', 'descending'
-  const [favoriteArticles, setFavoriteArticles] = useState(() => {
-    const saved = localStorage.getItem('favoriteArticles');
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [favoriteArticles, setFavoriteArticles] = useLocalStorage('favoriteArticles', []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,10 +27,6 @@ const App = () => {
     };
     fetchData();
   }, [articles]);
-
-  useEffect(() => {
-    localStorage.setItem('favoriteArticles', JSON.stringify(favoriteArticles));
-  }, [favoriteArticles]);
 
   const handleToggleFavorite = (articleId) => {
     setFavoriteArticles((previous) => {
