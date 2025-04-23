@@ -1,32 +1,18 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { Container, Box, Typography, Button } from '@mui/material';
 import { SearchBar } from './components/SearchBar/SearchBar';
 import { ArticlesList } from './components/ArticlesList/ArticlesList';
 import { ArticleModal } from './components/ArticleModal/ArticleModal';
 import { SortButton } from './components/SortButton/SortButton';
 import useLocalStorage from './hooks/useLocalStorage';
+import useArticles from './hooks/useArticles';
 
 const App = () => {
-  const [articles, setArticles] = useState([]);
+  const { articles } = useArticles();
   const [searchQuery, setSearchQuery] = useState('');
   const [open, setOpen] = useState(false);
   const [sortOrder, setSortOrder] = useState('none'); // 'none', 'ascending', 'descending'
   const [favoriteArticles, setFavoriteArticles] = useLocalStorage('favoriteArticles', []);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [articlesResponse] = await Promise.all([
-          fetch('http://localhost:3010/articles'),
-        ]);
-        const articlesData = await articlesResponse.json();
-        setArticles(articlesData);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchData();
-  }, [articles]);
 
   const handleToggleFavorite = (articleId) => {
     setFavoriteArticles((previous) => {
