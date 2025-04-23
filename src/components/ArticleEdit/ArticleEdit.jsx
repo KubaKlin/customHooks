@@ -3,21 +3,17 @@ import { useState } from 'react';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { ArticleModal } from '../ArticleModal/ArticleModal';
+import useArticles from '../../hooks/useArticles';
 
 export const ArticleEdit = ({ article, isFavorite, onToggleFavorite }) => {
   const [open, setOpen] = useState(false);
+  const { deleteArticle } = useArticles();
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const handleRemove = async () => {
-    try {
-      await fetch(`http://localhost:3010/articles/${article.id}`, {
-        method: 'DELETE',
-      });
-    } catch (error) {
-      console.error('Error removing article:', error);
-    }
+  const handleRemove = () => {
+    deleteArticle(article.id);
   };
 
   return (
