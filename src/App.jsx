@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { Container, Box, Typography, Button, IconButton, Tooltip } from '@mui/material';
+import { Container, Box, Typography, Button } from '@mui/material';
 import { SearchBar } from './components/SearchBar/SearchBar';
 import { ArticlesList } from './components/ArticlesList/ArticlesList';
 import { ArticleModal } from './components/ArticleModal/ArticleModal';
-import SortIcon from '@mui/icons-material/Sort';
+import { SortButton } from './components/SortButton/SortButton';
 import useLocalStorage from './hooks/useLocalStorage';
 import useArticles from './hooks/useArticles';
 
@@ -50,16 +50,10 @@ const App = () => {
             >
               Add new article
             </Button>
-            <Tooltip title={isSorted ? "Remove sorting" : "Sort by content length"}>
-              <IconButton 
-                onClick={handleToggleSort}
-                color={isSorted ? "primary" : "default"}
-                size="small"
-                sx={{ mb: 2 }}
-              >
-                <SortIcon />
-              </IconButton>
-            </Tooltip>
+            <SortButton 
+              isSorted={isSorted}
+              onToggleSort={handleToggleSort}
+            />
           </Box>
           <ArticleModal open={open} onClose={handleClose} isEditing={false} />
         </Box>
