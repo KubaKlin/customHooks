@@ -14,7 +14,6 @@ const style = {
 };
 
 export const ArticleModal = ({ open, onClose, isEditing, article }) => {
-
   return (
     <Modal
       open={open}

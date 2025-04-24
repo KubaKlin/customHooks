@@ -1,7 +1,6 @@
 import { Button } from '@mui/material';
 
 const SortButton = ({ isSorted, onToggleSort }) => {
-
   return (
     <Button
       size="small"
