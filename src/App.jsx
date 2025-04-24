@@ -6,14 +6,18 @@ import { ArticleModal } from './components/ArticleModal/ArticleModal';
 import { SortButton } from './components/SortButton/SortButton';
 import useLocalStorage from './hooks/useLocalStorage';
 import useArticles from './hooks/useArticles';
+import useArticleEdit from './hooks/useArticleEdit';
 
 const App = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [open, setOpen] = useState(false);
   const [isSorted, setIsSorted] = useState(false);
-  const [favoriteArticles, setFavoriteArticles] = useLocalStorage('favoriteArticles', []);
-  
+  const [favoriteArticles, setFavoriteArticles] = useLocalStorage(
+    'favoriteArticles',
+    [],
+  );
+
   const { articles } = useArticles(isSorted);
+  const { open, handleOpen, handleClose } = useArticleEdit();
 
   const handleToggleFavorite = (articleId) => {
     setFavoriteArticles((previous) => {
@@ -30,9 +34,7 @@ const App = () => {
       article.content.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const handleToggleSort = () => setIsSorted(prev => !prev);
+  const handleToggleSort = () => setIsSorted((prev) => !prev);
 
   return (
     <Container maxWidth={'md'}>
@@ -50,10 +52,7 @@ const App = () => {
             >
               Add new article
             </Button>
-            <SortButton 
-              isSorted={isSorted}
-              onToggleSort={handleToggleSort}
-            />
+            <SortButton isSorted={isSorted} onToggleSort={handleToggleSort} />
           </Box>
           <ArticleModal open={open} onClose={handleClose} isEditing={false} />
         </Box>
