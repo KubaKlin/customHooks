@@ -8,16 +8,17 @@ import useLocalStorage from './hooks/useLocalStorage';
 import useArticles from './hooks/useArticles';
 import useArticleEdit from './hooks/useArticleEdit';
 import useArticleCreate from './hooks/useArticleCreate';
+import useSearchQuery from './hooks/useSearchQuery';
 
 const App = () => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useSearchQuery();
   const [isSorted, setIsSorted] = useState(false);
   const [favoriteArticles, setFavoriteArticles] = useLocalStorage(
     'favoriteArticles',
     [],
   );
 
-  const { articles } = useArticles(isSorted);
+  const { articles } = useArticles(isSorted, searchQuery);
   const {
     open: editOpen,
     editingArticle,
@@ -38,12 +39,6 @@ const App = () => {
       return [...previous, articleId];
     });
   };
-
-  const filteredArticles = articles.filter(
-    (article) =>
-      article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      article.content.toLowerCase().includes(searchQuery.toLowerCase()),
-  );
 
   const handleToggleSort = () => setIsSorted((previousArticle) => !previousArticle);
 
@@ -86,7 +81,7 @@ const App = () => {
         </Box>
         <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
         <ArticlesList
-          articles={filteredArticles}
+          articles={articles}
           favoriteArticles={favoriteArticles}
           onToggleFavorite={handleToggleFavorite}
           onEdit={handleEditOpen}

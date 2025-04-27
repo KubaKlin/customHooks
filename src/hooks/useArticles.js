@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const useArticles = (shouldSort = false) => {
+const useArticles = (shouldSort = false, searchQuery = '') => {
   const [articles, setArticles] = useState([]);
 
   useEffect(() => {
@@ -9,6 +9,9 @@ const useArticles = (shouldSort = false) => {
         const queryParams = new URLSearchParams();
         if (shouldSort) {
           queryParams.append('sortBy', 'contentLength');
+        }
+        if (searchQuery) {
+          queryParams.append('search', searchQuery);
         }
 
         const url = `http://localhost:3010/articles?${queryParams.toString()}`;
@@ -26,7 +29,7 @@ const useArticles = (shouldSort = false) => {
     };
 
     fetchData();
-  }, [articles, shouldSort]);
+  }, [shouldSort, searchQuery]);
 
   return { articles };
 };
