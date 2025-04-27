@@ -40,7 +40,8 @@ const App = () => {
     });
   };
 
-  const handleToggleSort = () => setIsSorted((previousArticle) => !previousArticle);
+  const handleToggleSort = () =>
+    setIsSorted((previousArticle) => !previousArticle);
 
   const isModalOpen = editOpen || createOpen;
   const currentArticle = editingArticle;
@@ -55,7 +56,7 @@ const App = () => {
   };
 
   return (
-    <Container maxWidth={'md'}>
+    <Container maxWidth="md">
       <Box sx={{ my: 4 }}>
         <Box>
           <Typography variant="h4" sx={{ mb: 2 }}>
@@ -64,7 +65,7 @@ const App = () => {
           <Box sx={{ mt: 2, display: 'flex', gap: 1 }}>
             <Button
               size="small"
-              variant={'outlined'}
+              variant="outlined"
               sx={{ mb: 2 }}
               onClick={handleCreateOpen}
             >

@@ -43,7 +43,7 @@ export const ArticleForm = ({ article, isEditing, onSubmit }) => {
         label={isEditing ? 'Article title' : 'New article title'}
         fullWidth
         sx={{ mt: 1 }}
-        variant={'filled'}
+        variant="filled"
       />
       <TextField
         name="content"
@@ -52,12 +52,12 @@ export const ArticleForm = ({ article, isEditing, onSubmit }) => {
         label={isEditing ? 'Article content' : 'New article content'}
         fullWidth
         sx={{ mt: 1 }}
-        variant={'filled'}
+        variant="filled"
       />
       <Button
         type="submit"
         sx={{ mt: 1 }}
-        variant={'outlined'}
+        variant="outlined"
         disabled={isLoading}
       >
         {isLoading ? 'Loading...' : isEditing ? 'Update' : 'Submit'}

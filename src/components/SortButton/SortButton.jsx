@@ -4,7 +4,7 @@ const SortButton = ({ isSorted, onToggleSort }) => {
   return (
     <Button
       size="small"
-      variant={'outlined'}
+      variant="outlined"
       sx={{ mb: 2 }}
       onClick={onToggleSort}
       color={isSorted ? 'primary' : 'inherit'}

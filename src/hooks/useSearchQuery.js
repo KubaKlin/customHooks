@@ -5,7 +5,9 @@ const useSearchQuery = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const searchParams = new URLSearchParams(location.search);
-  const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
+  const [searchQuery, setSearchQuery] = useState(
+    searchParams.get('search') || '',
+  );
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -20,4 +22,4 @@ const useSearchQuery = () => {
   return [searchQuery, setSearchQuery];
 };
 
-export default useSearchQuery; 
+export default useSearchQuery;
