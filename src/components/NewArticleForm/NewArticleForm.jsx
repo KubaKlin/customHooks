@@ -1,19 +1,38 @@
 import { useNewArticleForm } from './useNewArticleForm';
-import { useNewArticleCreating } from './useNewArticleCreating';
 import { TextField, Button } from '@mui/material';
 import React from 'react';
 
-export const NewArticleForm = ({ article, isEditing, onClose }) => {
+export const NewArticleForm = ({ article, isEditing, onSubmit }) => {
   const { handleTitleChange, handleContentChange, title, content } =
     useNewArticleForm(article?.title || '', article?.content || '');
 
-  const { handleSubmit, isLoading, successMessage } = useNewArticleCreating(
-    title,
-    content,
-    isEditing,
-    article?.id,
-    onClose,
-  );
+  const [isLoading, setIsLoading] = React.useState(false);
+  const [successMessage, setSuccessMessage] = React.useState('');
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setIsLoading(true);
+
+    try {
+      const articleData = { title, content };
+      const success = await onSubmit(articleData);
+
+      if (success) {
+        setSuccessMessage(
+          isEditing
+            ? 'Article updated successfully'
+            : 'Article created successfully',
+        );
+      } else {
+        setSuccessMessage('An error occurred. Please try again.');
+      }
+    } catch (error) {
+      setSuccessMessage('An error occurred. Please try again.');
+      console.error('Error:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit}>

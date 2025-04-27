@@ -7,6 +7,7 @@ import { SortButton } from './components/SortButton/SortButton';
 import useLocalStorage from './hooks/useLocalStorage';
 import useArticles from './hooks/useArticles';
 import useArticleEdit from './hooks/useArticleEdit';
+import useArticleCreate from './hooks/useArticleCreate';
 
 const App = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -17,7 +18,17 @@ const App = () => {
   );
 
   const { articles } = useArticles(isSorted);
-  const { open, handleOpen, handleClose } = useArticleEdit();
+  const {
+    open: editOpen,
+    editingArticle,
+    handleOpen: handleEditOpen,
+    handleClose: handleEditClose,
+  } = useArticleEdit();
+  const {
+    open: createOpen,
+    handleOpen: handleCreateOpen,
+    handleClose: handleCreateClose,
+  } = useArticleCreate();
 
   const handleToggleFavorite = (articleId) => {
     setFavoriteArticles((previous) => {
@@ -36,6 +47,18 @@ const App = () => {
 
   const handleToggleSort = () => setIsSorted((prev) => !prev);
 
+  const isModalOpen = editOpen || createOpen;
+  const currentArticle = editingArticle;
+  const isEditing = !!currentArticle;
+
+  const handleModalClose = () => {
+    if (isEditing) {
+      handleEditClose();
+    } else {
+      handleCreateClose();
+    }
+  };
+
   return (
     <Container maxWidth={'md'}>
       <Box sx={{ my: 4 }}>
@@ -48,19 +71,25 @@ const App = () => {
               size="small"
               variant={'outlined'}
               sx={{ mb: 2 }}
-              onClick={handleOpen}
+              onClick={handleCreateOpen}
             >
               Add new article
             </Button>
             <SortButton isSorted={isSorted} onToggleSort={handleToggleSort} />
           </Box>
-          <ArticleModal open={open} onClose={handleClose} isEditing={false} />
+          <ArticleModal
+            open={isModalOpen}
+            onClose={handleModalClose}
+            isEditing={isEditing}
+            article={currentArticle}
+          />
         </Box>
         <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
         <ArticlesList
           articles={filteredArticles}
           favoriteArticles={favoriteArticles}
           onToggleFavorite={handleToggleFavorite}
+          onEdit={handleEditOpen}
         />
       </Box>
     </Container>
