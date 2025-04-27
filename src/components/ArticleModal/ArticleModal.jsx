@@ -1,5 +1,5 @@
 import { Box, Modal, Typography } from '@mui/material';
-import { NewArticleForm } from '../NewArticleForm/NewArticleForm';
+import { ArticleForm } from '../ArticleForm/ArticleForm.jsx';
 import useArticleCreate from '../../hooks/useArticleCreate';
 import useArticleEdit from '../../hooks/useArticleEdit';
 
@@ -43,7 +43,7 @@ export const ArticleModal = ({ open, onClose, isEditing, article }) => {
         >
           {isEditing ? 'Edit article' : 'Add new article'}
         </Typography>
-        <NewArticleForm
+        <ArticleForm
           article={article}
           isEditing={isEditing}
           onClose={onClose}

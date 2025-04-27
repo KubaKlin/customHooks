@@ -1,10 +1,10 @@
-import { useNewArticleForm } from './useNewArticleForm';
+import { useArticleForm } from './useArticleForm.jsx';
 import { TextField, Button } from '@mui/material';
 import React from 'react';
 
-export const NewArticleForm = ({ article, isEditing, onSubmit }) => {
+export const ArticleForm = ({ article, isEditing, onSubmit }) => {
   const { handleTitleChange, handleContentChange, title, content } =
-    useNewArticleForm(article?.title || '', article?.content || '');
+    useArticleForm(article?.title || '', article?.content || '');
 
   const [isLoading, setIsLoading] = React.useState(false);
   const [successMessage, setSuccessMessage] = React.useState('');

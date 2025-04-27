@@ -29,7 +29,7 @@ const useArticles = (shouldSort = false, searchQuery = '') => {
     };
 
     fetchData();
-  }, [shouldSort, searchQuery]);
+  }, [articles, shouldSort, searchQuery]);
 
   return { articles };
 };

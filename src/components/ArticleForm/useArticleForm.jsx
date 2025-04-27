@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export function useNewArticleForm(initialTitle = '', initialContent = '') {
+export function useArticleForm(initialTitle = '', initialContent = '') {
   const [title, setTitle] = useState(initialTitle);
   const [content, setContent] = useState(initialContent);
 
