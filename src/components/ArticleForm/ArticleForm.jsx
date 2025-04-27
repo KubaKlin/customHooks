@@ -1,4 +1,4 @@
-import { useArticleForm } from './useArticleForm.jsx';
+import { useArticleForm } from './useArticleForm';
 import { TextField, Button } from '@mui/material';
 import React from 'react';
 

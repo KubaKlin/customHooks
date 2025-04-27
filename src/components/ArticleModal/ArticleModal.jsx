@@ -1,5 +1,5 @@
 import { Box, Modal, Typography } from '@mui/material';
-import { ArticleForm } from '../ArticleForm/ArticleForm.jsx';
+import { ArticleForm } from '../ArticleForm/ArticleForm';
 import useArticleCreate from '../../hooks/useArticleCreate';
 import useArticleEdit from '../../hooks/useArticleEdit';
 
