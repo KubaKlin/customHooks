@@ -11,7 +11,7 @@ const useArticles = (shouldSort = false) => {
           queryParams.append('sortBy', 'contentLength');
         }
 
-        const url = `http://localhost:3010/articles${queryParams.toString() ? `?${queryParams.toString()}` : ''}`;
+        const url = `http://localhost:3010/articles?${queryParams.toString()}`;
         const response = await fetch(url);
 
         if (!response.ok) {

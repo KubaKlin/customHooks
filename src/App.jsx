@@ -45,7 +45,7 @@ const App = () => {
       article.content.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
-  const handleToggleSort = () => setIsSorted((prev) => !prev);
+  const handleToggleSort = () => setIsSorted((previousArticle) => !previousArticle);
 
   const isModalOpen = editOpen || createOpen;
   const currentArticle = editingArticle;
