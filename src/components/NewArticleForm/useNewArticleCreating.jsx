@@ -5,7 +5,6 @@ export function useNewArticleCreating(
   content,
   isEditing = false,
   articleId = null,
-  onClose = null,
 ) {
   const [isLoading, setIsLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
