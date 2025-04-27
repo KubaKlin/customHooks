@@ -3,11 +3,11 @@ import { useState } from 'react';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { ArticleModal } from '../ArticleModal/ArticleModal';
-import useArticles from '../../hooks/useArticles';
+import useArticleDelete from '../../hooks/useArticleDelete';
 
 export const ArticleEdit = ({ article, isFavorite, onToggleFavorite }) => {
   const [open, setOpen] = useState(false);
-  const { deleteArticle } = useArticles();
+  const { deleteArticle } = useArticleDelete();
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
