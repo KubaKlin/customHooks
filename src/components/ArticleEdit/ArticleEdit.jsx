@@ -5,15 +5,16 @@ import StarBorderIcon from '@mui/icons-material/StarBorder';
 import { ArticleModal } from '../ArticleModal/ArticleModal';
 import useArticleDelete from '../../hooks/useArticleDelete';
 
-export const ArticleEdit = ({ article, isFavorite, onToggleFavorite }) => {
+export const ArticleEdit = ({ article, isFavorite, onToggleFavorite, refreshArticles }) => {
   const [open, setOpen] = useState(false);
   const { deleteArticle } = useArticleDelete();
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const handleRemove = () => {
-    deleteArticle(article.id);
+  const handleRemove = async () => {
+    await deleteArticle(article.id);
+    if (refreshArticles) refreshArticles();
   };
 
   return (

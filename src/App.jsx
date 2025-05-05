@@ -18,7 +18,7 @@ const App = () => {
     [],
   );
 
-  const { articles } = useArticles(isSorted, searchQuery);
+  const { articles, refreshArticles } = useArticles(isSorted, searchQuery);
   const {
     open: editOpen,
     editingArticle,
@@ -78,6 +78,7 @@ const App = () => {
             onClose={handleModalClose}
             isEditing={isEditing}
             article={currentArticle}
+            refreshArticles={refreshArticles}
           />
         </Box>
         <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
@@ -86,6 +87,7 @@ const App = () => {
           favoriteArticles={favoriteArticles}
           onToggleFavorite={handleToggleFavorite}
           onEdit={handleEditOpen}
+          refreshArticles={refreshArticles}
         />
       </Box>
     </Container>

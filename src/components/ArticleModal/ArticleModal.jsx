@@ -15,16 +15,19 @@ const style = {
   p: 4,
 };
 
-export const ArticleModal = ({ open, onClose, isEditing, article }) => {
+export const ArticleModal = ({ open, onClose, isEditing, article, refreshArticles }) => {
   const { handleCreate } = useArticleCreate();
   const { handleEdit } = useArticleEdit();
 
   const handleSubmit = async (articleData) => {
+    let success;
     if (isEditing) {
-      return await handleEdit(article.id, articleData);
+      success = await handleEdit(article.id, articleData);
     } else {
-      return await handleCreate(articleData);
+      success = await handleCreate(articleData);
     }
+    if (success && refreshArticles) refreshArticles();
+    return success;
   };
 
   return (
