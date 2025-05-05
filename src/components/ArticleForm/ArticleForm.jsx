@@ -18,11 +18,11 @@ export const ArticleForm = ({ article, isEditing, onSubmit }) => {
       const success = await onSubmit(articleData);
 
       if (success) {
-        setSuccessMessage(
-          isEditing
-            ? 'Article updated successfully'
-            : 'Article created successfully',
-        );
+        if (isEditing) {
+          setSuccessMessage('Article updated successfully');
+        } else {
+          setSuccessMessage('Article created successfully');
+        }
       } else {
         setSuccessMessage('An error occurred. Please try again.');
       }
@@ -32,6 +32,16 @@ export const ArticleForm = ({ article, isEditing, onSubmit }) => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const getButtonText = () => {
+    if (isLoading) {
+      return 'Loading...';
+    }
+    if (isEditing) {
+      return 'Update';
+    }
+    return 'Submit';
   };
 
   return (
@@ -60,7 +70,7 @@ export const ArticleForm = ({ article, isEditing, onSubmit }) => {
         variant="outlined"
         disabled={isLoading}
       >
-        {isLoading ? 'Loading...' : isEditing ? 'Update' : 'Submit'}
+        {getButtonText()}
       </Button>
       {successMessage && <p>{successMessage}</p>}
     </form>
