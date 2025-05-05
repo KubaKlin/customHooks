@@ -40,8 +40,9 @@ const App = () => {
     });
   };
 
-  const handleToggleSort = () =>
+  const handleToggleSort = () => {
     setIsSorted((previousArticle) => !previousArticle);
+  };
 
   const isModalOpen = editOpen || createOpen;
   const currentArticle = editingArticle;
